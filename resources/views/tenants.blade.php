@@ -18,8 +18,8 @@
         <input name="_method" type="hidden" value="PATCH">
 
         <!-- Block Tabs With Options Default Style -->
-        <div class="block block-rounded block-fx-shadow">
-            <div class="block-header block-header-default">
+        <div class="block block-rounded block-fx-pop block-themed">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ $tenant->name }} {{ $tenant->extension }}</h3>
 
             </div>
@@ -343,9 +343,9 @@
 
     @if (@$inactive)
     <!-- Table Sections (.js-table-sections class is initialized in Helpers.tableToolsSections()) -->
-    <div class="block block-rounded block-fx-shadow block-themed">
+    <div class="block block-rounded block-fx-pop block-themed">
 
-        <div class="block-header block-header-default bg-dark">
+        <div class="block-header block-header-default bg-primary-dark">
             <h3 class="block-title">{{ __('common.Tenants') }} {{ __('common.Inactive') }}
                 <small>({{ $inactive->count() }} / {{ $inactive->total() }})</small></h3>
             <div class="block-options">

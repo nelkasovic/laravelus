@@ -17,8 +17,8 @@
         <input name="_method" type="hidden" value="PATCH">
 
         <!-- Block Tabs With Options Default Style -->
-        <div class="block block-rounded block-themed">
-            <div class="block-header block-header-default">
+        <div class="block block-rounded block-themed block-fx-pop">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ __('common.Role') }} {{ $role->name }}</h3>
             </div>
             <div class="block-content pb-4">
@@ -51,7 +51,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($permission as $value)
+                                @foreach($permissions as $value)
                                 <tr>
                                     <td class="text-center">
                                         <div
@@ -103,8 +103,8 @@
         <input name="_method" type="hidden" value="POST">
 
         <!-- Block Tabs With Options Default Style -->
-        <div class="block block-rounded block-themed">
-            <div class="block-header block-header-default">
+        <div class="block block-rounded block-themed block-fx-pop">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ __('common.Role') }}</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option"
@@ -206,7 +206,7 @@
     <!-- Table Sections (.js-table-sections class is initialized in Helpers.tableToolsSections()) -->
     <div class="block block-rounded block-themed block-fx-pop">
 
-        <div class="block-header block-header-default bg-primary-darker">
+        <div class="block-header block-header-default bg-primary-dark">
             <h3 class="block-title">{{ __('common.Roles') }}</h3>
             <div class="block-options">
                 @hasrole('super')

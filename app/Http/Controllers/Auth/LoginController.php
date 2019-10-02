@@ -81,11 +81,13 @@ class LoginController extends Controller
             // Store settings to session
             // Request::session()->put('settings', $settings);
            
-            if($user->person->approved) {
-                return redirect()->intended('dashboard');
-            }
+            //if($user->person->approved) {
+            //    return redirect()->intended('dashboard');
+            //}
 
-            return redirect()->action('PersonController@edit', $user->person_id)->with('approval', Lang::get('common.MissingDataForApproval'));
+            return redirect()->intended('dashboard');
+            
+            //return redirect()->action('PersonController@edit', $user->person_id)->with('approval', Lang::get('common.MissingDataForApproval'));
 
         } else {
             //return view('auth.login', array('title' => 'Welcome', 'description' => '', 'page' => 'home'));

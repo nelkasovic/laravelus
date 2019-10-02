@@ -47,6 +47,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
     <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
+    <link rel="stylesheet" href="/css/themes/xmodern.css">
 
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
@@ -495,10 +496,10 @@
                 <div class="row font-size-sm">
                     <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-right">
                         {{ __('common.Crafted') }} {{ __('common.with') }} <i class="fa fa-heart text-danger"></i>
-                        {{ __('common.by') }} <a class="font-w600" href="https://sqedule.ch" target="_blank">{{ config('app.name') }}</a>
+                        {{ __('common.by') }} <a class="font-w600" href="#" target="_blank">{{ config('app.name') }}</a>
                     </div>
                     <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                        <a class="font-w600" href="https://goo.gl/mDBqx1" target="_blank">{{ config('app.name') }}</a>
+                        <a class="font-w600" href="#" target="_blank">{{ config('app.name') }}</a>
                         &copy; <span data-toggle="year-copy">2019</span>
 
                         <span> | {{ Carbon::now()->formatLocalized('%A, %d. %B %Y') }}

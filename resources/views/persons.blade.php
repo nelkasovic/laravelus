@@ -834,7 +834,7 @@
                     <tr>
                         <th style="border-top: none;"></th>
                         <th style="border-top: none;">
-                            @sortablelink('person_id', __('common.Person'))
+                            {{ __('common.Person') }}
                         </th>
                         <th style="border-top: none;" class="d-none d-xl-table-cell">
                             @sortablelink('event_id', __('common.Event'))
@@ -884,8 +884,7 @@
                         </td>
                         <td class="d-none d-xl-table-cell">
                             <div class="py-1">
-                                <a href="{{action('PersonController@show', $grade->user->person_id)}}">{{ $grade->user->person->first_name }}
-                                    {{ $grade->user->person->last_name }}</a>
+                               
                             </div>
                         </td>
                         <td class="d-none d-lg-table-cell">
@@ -1679,16 +1678,7 @@
                     </div>
                     <div class="col-xl-3">
                         <div class="form-group">
-                            <select class="form-control" id="import_id" name="import_id"
-                                title="{{ __('common.Import') }}" onchange="this.form.submit()" @if(@!$imports ||
-                                @$imports->count() == 0) disabled @endif>
-                                <option value="">{{ __('common.Import') }}</option>
-                                @foreach($imports as $import)
-                                <option value="{{ $import->id }}" {{ (@$import_id == $import->id ? 'selected':'') }}>
-                                    {{ $import->name }} {{ Carbon::parse($import->updated_at)->format('d.m.Y') }}
-                                </option>
-                                @endforeach
-                            </select>
+                           
                         </div>
                     </div>
                     <div class="col-xl-5"></div>
@@ -1758,35 +1748,7 @@
                             </div>
                         </td>
                         <td class="d-none d-sm-table-cell">
-                            @if($person->locations->count() > 0 && $person->getAllMeta()->count() >= 13)
-                            <a href="{{action('PersonController@edit', $person->id)}}" class="btn btn-sm btn-success"
-                                title="{{__('common.DataStatus')}}">
-                                <i class="nav-main-link-icon si si-emotsmile mr-1"></i>
-                                {{__('common.Good')}}
-                            </a>
 
-                            @elseif($person->getAllMeta()->count() > 4 && $person->getAllMeta()->count() < 13) <a
-                                href="{{action('PersonController@edit', $person->id)}}" class="btn btn-sm btn-info"
-                                title="{{__('common.DataStatus')}}">
-                                <i class="nav-main-link-icon si si-ghost mr-1"></i>
-                                {{__('common.Incomplete')}}
-                                </a>
-
-                                @else
-                                <a href="{{action('PersonController@edit', $person->id)}}"
-                                    class="btn btn-sm btn-warning" title="{{__('common.DataStatus')}}">
-                                    <i class="nav-main-link-icon si si-energy mr-1"></i>
-                                    {{__('common.Critical')}}
-                                </a>
-                                @endif
-
-                                @if($person->changed)
-                                <a href="{{action('PersonController@edit', $person->id)}}"
-                                    class="btn btn-sm btn-warning" title="{{__('common.DataStatus')}}">
-                                    <i class="nav-main-link-icon si si-tag mr-1"></i>
-                                    {{__('common.Changed')}}
-                                </a>
-                                @endif
 
                         </td>
 
@@ -1799,35 +1761,7 @@
 
                         <td class="d-none d-sm-table-cell text-right">
                             @can('update persons')
-                            @if(!App\User::where('person_id', $person->id)->pluck('id')->first())
-                            <a href="{{action('PersonController@user', $person->id)}}" class="btn btn-info btn-sm">
-                                <i class="nav-main-link-icon si si-user mr-1"></i> {{ __('common.User') }} <span
-                                    class="text-lowercase">{{ __('common.Create') }}</span>
-                            </a>
-                            @else
 
-                            @if(!$person->approved)
-                            <a href="{{action('PersonController@approve', $person->id)}}" class="btn btn-success btn-sm"
-                                title="{{ __('common.DataStatus') }} {{ __('common.Complete') }} / {{ __('common.Good') }}?">
-                                <i class="nav-main-link-icon si si-check mr-1"></i> {{ __('common.DataCheckDone') }}
-                            </a>
-                            @else
-                            <a href="{{action('PersonController@disapprove', $person->id)}}"
-                                class="btn btn-light btn-sm"
-                                title="{{ __('common.DataStatus') }} {{ __('common.Critical') }} / {{ __('common.Incomplete') }}?">
-                                <i class="nav-main-link-icon si si-close mr-1"></i>
-                                {{ __('common.RequestDataUpdate') }}?
-                            </a>
-                            @endif
-                            @endif
-
-                            <a href="{{action('ExclusionController@person', $person->id)}}"
-                                class="btn btn-light btn-sm">
-                                <i class="nav-main-link-icon si si-calculator"></i>
-                            </a>
-                            <a href="{{action('PersonController@edit', $person->id)}}" class="btn btn-primary btn-sm">
-                                <i class="nav-main-link-icon si si-pencil"></i>
-                            </a>
                             @endcan
 
                             @can('delete persons')
@@ -1848,15 +1782,7 @@
                     <tr>
                         <td class="text-center"></td>
                         <td colspan="10">
-                            @foreach ($person->locations as $location)
-                            <h5 class="text-capitalize">{{ $location->type }}
-                                {{ ($location->default === 1) ? (__('common.Default')) : '' }}</h5>
-                            <p>
-                                {{ $location->street }} {{ $location->street_number }}<br>
-                                {{ $location->zip }} {{ $location->city }}<br>
-                                {{ $location->country }}
-                            </p>
-                            @endforeach
+
                             <ul>
                                 @foreach ($person->getAllMeta() as $key => $field)
                                 <li>{{$field}}</li>

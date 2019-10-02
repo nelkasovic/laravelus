@@ -34,35 +34,13 @@ class PersonController extends Controller
      */
     public function index(Request $request)
     {
-        $client = Auth()->user()->hasRole('client');
-        $manager = Auth()->user()->hasRole('manager');
-        $teacher = Auth()->user()->hasRole('teacher');
-        $student = Auth()->user()->hasRole('student');
-        $noob = Auth()->user()->hasRole('noob');
-        $import_id = $request->import_id;
+        $tenant = Auth()->user()->hasRole('tenant');
         $selected_role = $request->role;
-        $imports = Auth()->user()->tenant->imports;
 
         try {
             $keyword = $request->input('keyword');
-
-            if (($teacher || $noob) && !$client && !$manager) {
-                /**
-                 * Show only single person.
-                 */
-                $persons = Auth::user()->tenant
+            $persons = Auth::user()->tenant
                     ->persons()
-                    ->where('id', Auth::user()->person_id)
-                    ->search($keyword)
-                    ->sortable(['updated_at' => 'desc'])
-                    ->paginate($request->show)
-                    ->onEachSide(1);
-            } else {
-                $persons = Auth::user()->tenant
-                    ->persons()
-                    ->when($import_id, function ($q) use ($import_id) {
-                        $q->where('import_id', $import_id);
-                    })
                     ->when($selected_role, function ($q) use ($selected_role) {
                         $q->whereHas('roles', function ($w) use ($selected_role) {
                             $w->where('name', $selected_role);
@@ -72,7 +50,7 @@ class PersonController extends Controller
                     ->sortable(['updated_at' => 'desc'])
                     ->paginate($request->show)
                     ->onEachSide(1);
-            }
+            
 
             $total = $persons->total();
             $show = $persons->perPage();
@@ -89,7 +67,7 @@ class PersonController extends Controller
             $data = [
                     'status' => 200,
                     'success' => true,
-                    'result' => $client->persons->toArray()
+                    'result' => $tenant->persons->toArray()
                 ];
                 
             return response()->json($data);
@@ -98,10 +76,8 @@ class PersonController extends Controller
         return view(
             'persons',
             [
-                'import_id' => $import_id,
                 'selected_role' => $selected_role,
                 'persons' => $persons,
-                'imports' => $imports,
                 'show' => $show,
                 'total' => $total,
                 'keyword' => $keyword,
@@ -119,7 +95,7 @@ class PersonController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['client_id'] = Auth()->user()->tenant->id;
+        $data['tenant_id'] = Auth()->user()->tenant->id;
 
         /*
          * If a person changes his own record, set flag changed to true.
@@ -285,7 +261,7 @@ class PersonController extends Controller
             'email' => 'unique:persons,email'
         ]);
 
-        $data['client_id'] = Auth::user()->tenant->id;
+        $data['tenant_id'] = Auth::user()->tenant->id;
         $study = ($request->study_id) ? Study::findOrFail($request->study_id) : null;
         $data['period_id'] = ($study) ? $study->period->id : Auth::user()->tenant->periods()->where('active', 1)->where('global', 1)->pluck('id')->first();
         
@@ -341,13 +317,8 @@ class PersonController extends Controller
 
         try {
             $person = Person::findOrFail($id);
-            $user = User::where('person_id', $person->id);
-            $this->authorize('delete', $person);
-
-            if ($user) {
-                //$this->authorize('delete', $user);
-                $user->delete();
-            }
+            //$this->authorize('delete', $person);
+            //$user->delete();
 
             $picture = $person->picture;
             @unlink(public_path() . '/images/' . $picture);
@@ -442,15 +413,15 @@ class PersonController extends Controller
     {
         try {
             if (!$this->hasUser($pid)) {
-                $client = Auth()->user()->tenant;
+                $tenant = Auth()->user()->tenant;
                 
                 // Check if initial passwort exists, set one if not!
-                if (!$client->getMeta('initial_password')) {
-                    $client->setMeta('initial_password', 'Staff87#');
+                if (!$tenant->getMeta('initial_password')) {
+                    $tenant->setMeta('initial_password', 'Staff87#');
                 }
 
                 // Use initial password for the user.
-                $password = $client->getMeta('initial_password');
+                $password = $tenant->getMeta('initial_password');
                 
                 // Find person.
                 $person = Person::findOrFail($pid);
@@ -463,7 +434,6 @@ class PersonController extends Controller
 
                 // Add some attributes.
                 $user->tenant_id = $person->tenant_id;
-                $user->person_id = $person->id;
                 $user->description = $person->title . ' ' . $person->company_name;
                 $user->name = $person->first_name . ' ' . $person->last_name;
                 $user->email = $person->email;
@@ -480,8 +450,8 @@ class PersonController extends Controller
 
                 if (config('app.env') === 'production') {
                     // Send notification via email only if enabled on production.
-                    if ($client->getMeta('notify_person_to_user')) {
-                        $this->mail->userForPersonCreated($person, $user, $client);
+                    if ($tenant->getMeta('notify_person_to_user')) {
+                        $this->mail->userForPersonCreated($person, $user, $tenant);
                     }
                 }
 
@@ -501,6 +471,6 @@ class PersonController extends Controller
 
     public function hasUser($pid)
     {
-        return User::where('person_id', $pid)->pluck('id')->first();
+        //return User::where('person_id', $pid)->pluck('id')->first();
     }
 }

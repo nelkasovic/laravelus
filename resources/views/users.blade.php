@@ -19,7 +19,7 @@
 
         <!-- Block Tabs With Options Default Style -->
         <div class="block block-rounded block-themed block-fx-pop">
-            <div class="block-header block-header-default">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ $user->description }}</h3>
             </div>
             <div class="block-content pb-4">
@@ -96,7 +96,7 @@
 
         <!-- Block Tabs With Options Default Style -->
         <div class="block block-rounded block-themed block-fx-pop">
-            <div class="block-header block-header-default">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ __('common.User') }}</h3>
             </div>
             <div class="block-content pb-4">
@@ -166,7 +166,7 @@
 
         <!-- Block Tabs With Options Default Style -->
         <div class="block block-rounded block-themed">
-            <div class="block-header block-header-default">
+            <div class="block-header block-header-default bg-primary-dark">
                 <h3 class="block-title">{{ $user->description }}</h3>
             </div>
             <div class="block-content pb-4">
@@ -217,7 +217,7 @@
 
         <!-- Block Tabs With Options Default Style -->
         <div class="block block-rounded block-themed">
-            <div class="block-header block-header-default">
+            <div class="block-header block-header-default bg-primary-dark" >
                 <h3 class="block-title">{{ $user->description }}</h3>
             </div>
             <div class="block-content pb-4">
@@ -253,7 +253,7 @@
     <!-- Table Sections (.js-table-sections class is initialized in Helpers.tableToolsSections()) -->
     <div class="block block-rounded block-themed block-fx-pop">
 
-        <div class="block-header block-header-default bg-primary-darker">
+        <div class="block-header block-header-default bg-primary-dark">
             <h3 class="block-title">{{ __('common.Users') }}</h3>
             <div class="block-options">
                 @can('create users')
